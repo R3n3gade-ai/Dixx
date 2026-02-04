@@ -169,12 +169,15 @@ async function processCreditCardPayment(orderData) {
     const orderNumber = 'DIXX-' + Date.now();
 
     // Store order data
-    localStorage.setItem('lastOrder', JSON.stringify({
+    const completeOrderData = {
         ...orderData,
         orderNumber,
         paymentStatus: 'completed',
         orderDate: new Date().toISOString()
-    }));
+    };
+
+    localStorage.setItem('lastOrder', JSON.stringify(completeOrderData));
+    localStorage.setItem(`order_${orderNumber}`, JSON.stringify(completeOrderData));
 
     // Clear cart
     cart.clear();
@@ -192,12 +195,15 @@ async function processZelleOrder(orderData) {
     const orderNumber = 'DIXX-' + Date.now();
 
     // Store order data
-    localStorage.setItem('lastOrder', JSON.stringify({
+    const zelleOrderData = {
         ...orderData,
         orderNumber,
         paymentStatus: 'pending-zelle',
         orderDate: new Date().toISOString()
-    }));
+    };
+
+    localStorage.setItem('lastOrder', JSON.stringify(zelleOrderData));
+    localStorage.setItem(`order_${orderNumber}`, JSON.stringify(zelleOrderData));
 
     // Clear cart
     cart.clear();

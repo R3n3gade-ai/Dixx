@@ -2,16 +2,18 @@
 const PaymentConfig = {
     // Authorize.Net Configuration
     authorizeNet: {
-        apiLoginID: 'YOUR_API_LOGIN_ID', // To be replaced with actual credentials
-        clientKey: 'YOUR_PUBLIC_CLIENT_KEY', // To be replaced with actual credentials
-        environment: 'SANDBOX' // Change to 'PRODUCTION' for live transactions
+        apiLoginID: '7t37xPX5',
+        clientKey: '8S4jDQprdt5cULV5mR9AA4tHgV4Yw68W48t7Fm2f7naftQRgZXdygSdXLA6t732F',
+        transactionKey: '8Wp4F4T9fqK5gq6M',
+        signatureKey: 'EBA0C8BDB015B802F92683B2BDDD5362EDB5BAAE09B3DA0693990B574602D5541A73EE5D45C6D2A8C70A48CA20A2A30798CCDE256A44ECC22E0DC519CA170CFF',
+        environment: 'PRODUCTION' // Using production credentials
     },
 
     // Zelle Configuration
     zelle: {
-        email: 'payments@dixxco.com', // Replace with actual Zelle email
-        phone: '(555) 123-4567', // Replace with actual Zelle phone
-        qrCode: 'zelle-qr-code.png' // Replace with actual QR code image path
+        businessName: 'PULSE MEDIA LABS',
+        handle: 'dixx-co',
+        qrCode: 'zelle-qr-code.jpg' // Zelle QR code image
     },
 
     // Pricing
