@@ -40,7 +40,7 @@ class ShoppingCart {
         }
 
         this.saveCart();
-        this.showNotification(`${product.name} added to cart!`);
+        this.showAddToCartModal(`${product.name} added to cart!`);
     }
 
     // Remove item from cart
@@ -115,22 +115,61 @@ class ShoppingCart {
         }
     }
 
-    // Show notification
-    showNotification(message) {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = 'cart-notification';
-        notification.textContent = message;
-        document.body.appendChild(notification);
+    // Show add to cart modal
+    showAddToCartModal(message) {
+        // Remove existing modal if any
+        const existingModal = document.querySelector('.add-to-cart-modal');
+        if (existingModal) {
+            existingModal.remove();
+        }
+
+        // Create modal
+        const modal = document.createElement('div');
+        modal.className = 'add-to-cart-modal';
+        modal.innerHTML = `
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="success-icon">✓</div>
+                    <h3>Added to Cart!</h3>
+                </div>
+                <div class="modal-body">
+                    <p>${message}</p>
+                    <div class="cart-summary-mini">
+                        <div class="summary-row">
+                            <span>Items in cart:</span>
+                            <span>${this.getItemCount()}</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span>$${this.getSubtotal().toFixed(2)}</span>
+                        </div>
+                        ${this.isBundleEligible() ? `
+                            <div class="summary-row bundle-highlight">
+                                <span>🎉 Bundle Deal Active!</span>
+                                <span>$99</span>
+                            </div>
+                        ` : this.getItemCount() >= 3 ? `
+                            <div class="summary-row bundle-hint">
+                                <span>Add ${5 - this.getItemCount()} more for bundle deal!</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="closeAddToCartModal()">Continue Shopping</button>
+                    <a href="cart.html" class="btn-primary">View Cart</a>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
 
         // Trigger animation
-        setTimeout(() => notification.classList.add('show'), 10);
+        setTimeout(() => modal.classList.add('show'), 10);
 
-        // Remove after 3 seconds
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, 3000);
+        // Close on overlay click
+        modal.querySelector('.modal-overlay').addEventListener('click', closeAddToCartModal);
     }
 }
 
@@ -177,4 +216,14 @@ function quickAddToCart(productId, productName, productPrice, productImage) {
     };
 
     cart.addItem(product);
+}
+
+
+// Close add to cart modal
+function closeAddToCartModal() {
+    const modal = document.querySelector('.add-to-cart-modal');
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => modal.remove(), 300);
+    }
 }

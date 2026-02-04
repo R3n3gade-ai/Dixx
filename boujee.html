@@ -13,6 +13,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal-styles.css">
     <style>
         /* Product Page Specific Styles */
         .product-page {
@@ -374,6 +375,10 @@
                 <a href="index.html#shop">Shop</a>
                 <a href="index.html#difference">The Difference</a>
                 <a href="index.html#reviews">Reviews</a>
+                <a href="cart.html" class="cart-link">
+                    🛒 Cart
+                    <span class="cart-badge">0</span>
+                </a>
                 <a href="#" class="btn-nav">Get Yours</a>
             </div>
         </div>
@@ -565,10 +570,20 @@
         document.getElementById('addToCart').addEventListener('click', () => {
             const selectedPattern = document.querySelector('.pattern-option.active').dataset.name;
             const selectedSize = document.querySelector('.size-option.active').dataset.size;
+            const selectedImage = document.querySelector('.pattern-option.active').dataset.image;
 
-            alert(`Added to cart!\n\nProduct: The Boujee\nPattern: ${selectedPattern}\nSize: ${selectedSize}\nQuantity: ${quantity}`);
+            cart.addItem({
+                id: 'boujee-' + selectedPattern.toLowerCase().replace(' ', '-'),
+                name: 'The Boujee',
+                price: 39.99,
+                size: selectedSize,
+                color: selectedPattern,
+                image: selectedImage,
+                quantity: quantity
+            });
         });
     </script>
+    <script src="cart.js"></script>
 </body>
 
 </html>
