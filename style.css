@@ -1227,3 +1227,48 @@ section {
 .cart-notification.show {
     right: 24px;
 }
+
+
+/* Scrolling Banner */
+.scrolling-banner {
+    background: linear-gradient(135deg, #00F0A0, #00D9FF);
+    padding: 16px 0;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.banner-content {
+    display: flex;
+    white-space: nowrap;
+    animation: scroll-banner 30s linear infinite;
+}
+
+.banner-text {
+    display: inline-block;
+    padding: 0 40px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 0.5px;
+}
+
+@keyframes scroll-banner {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.scrolling-banner:hover .banner-content {
+    animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+    .banner-text {
+        font-size: 14px;
+        padding: 0 20px;
+    }
+}
