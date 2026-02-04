@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Boujee - Luxury Designer Pattern Boxer Briefs | DIXX Co.</title>
+    <meta name="description"
+        content="Luxury designer-inspired boxer briefs with gold chain diamond patterns. The Boujee collection by DIXX.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Product Page Specific Styles */
+        .product-page {
+            min-height: 100vh;
+            background: var(--dark);
+            padding-top: 100px;
+        }
+
+        .product-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        /* Image Gallery */
+        .product-gallery {
+            position: sticky;
+            top: 120px;
+        }
+
+        .main-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: #FFFFFF;
+            border-radius: 24px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-image img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .main-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .thumbnail-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .thumbnail {
+            aspect-ratio: 1;
+            background: var(--dark-light);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumbnail img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+        }
+
+        .thumbnail:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .thumbnail.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255, 0, 102, 0.4);
+        }
+
+        /* Product Details */
+        .product-details {
+            padding: 20px 0;
+        }
+
+        .breadcrumb {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+
+        .product-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stars {
+            color: #FFB800;
+            font-size: 18px;
+        }
+
+        .rating-text {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .product-price {
+            font-size: 42px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+        }
+
+        .product-description {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        /* Pattern Selector */
+        .selector-section {
+            margin-bottom: 32px;
+        }
+
+        .selector-label {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .pattern-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .pattern-option {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .pattern-option:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .pattern-option.active {
+            border-color: #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        }
+
+        .pattern-option.tan-gold {
+            background: linear-gradient(135deg, #D4A574 0%, #C19A6B 100%);
+        }
+
+        .pattern-option.brown-gold {
+            background: linear-gradient(135deg, #6B4423 0%, #4A2C1A 100%);
+        }
+
+        .pattern-option.black-gold {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+        }
+
+        .pattern-option.black-white {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+        }
+
+        .pattern-option.red-gold {
+            background: linear-gradient(135deg, #FF6B35 0%, #E63946 100%);
+        }
+
+        /* Size Selector */
+        .size-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .size-option {
+            padding: 14px 24px;
+            background: var(--dark-light);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .size-option:hover {
+            border-color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .size-option.active {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-color: transparent;
+            color: #000;
+        }
+
+        /* Quantity and Add to Cart */
+        .purchase-section {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            background: var(--dark-light);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            padding: 16px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .quantity-value {
+            padding: 0 24px;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .add-to-cart-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 18px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-primary);
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Product Features */
+        .product-features {
+            margin-top: 48px;
+            padding-top: 48px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            align-items: start;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+            color: #000;
+        }
+
+        .feature-text {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .product-gallery {
+                position: relative;
+                top: 0;
+            }
+
+            .product-title {
+                font-size: 36px;
+            }
+
+            .purchase-section {
+                flex-direction: column;
+            }
+
+            .pattern-options {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">DIXX<span class="logo-dot">.</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#shop">Shop</a>
+                <a href="index.html#difference">The Difference</a>
+                <a href="index.html#reviews">Reviews</a>
+                <a href="#" class="btn-nav">Get Yours</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Product Page -->
+    <div class="product-page">
+        <div class="product-container">
+            <!-- Image Gallery -->
+            <div class="product-gallery">
+                <div class="main-image">
+                    <img id="mainProductImage" src="boujee-brown-gold.png" alt="The Boujee - Brown Gold">
+                </div>
+                <div class="thumbnail-strip">
+                    <div class="thumbnail active" data-image="boujee-brown-gold.png">
+                        <img src="boujee-brown-gold.png" alt="Brown Gold">
+                    </div>
+                    <div class="thumbnail" data-image="boujee-tan-gold.png">
+                        <img src="boujee-tan-gold.png" alt="Tan Gold">
+                    </div>
+                    <div class="thumbnail" data-image="boujee-black-gold.png">
+                        <img src="boujee-black-gold.png" alt="Black Gold">
+                    </div>
+                    <div class="thumbnail" data-image="boujee-packaging.png">
+                        <img src="boujee-packaging.png" alt="Packaging">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="product-details">
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a> / <a href="index.html#shop">Shop</a> / <span>The Boujee</span>
+                </div>
+
+                <h1 class="product-title">The Boujee</h1>
+
+                <div class="product-rating">
+                    <div class="stars">★★★★★</div>
+                    <span class="rating-text">5.0 (1,234 reviews)</span>
+                </div>
+
+                <div class="product-price">$39.99</div>
+
+                <p class="product-description">
+                    Luxury meets comfort. Designer-inspired diamond chain patterns with premium fabrics and our
+                    signature DixxPouch™ technology. For the man who appreciates the finer things. Limited edition
+                    patterns.
+                </p>
+
+                <!-- Pattern Selector -->
+                <div class="selector-section">
+                    <label class="selector-label">Select Pattern: <span id="selectedPatternName">Brown
+                            Gold</span></label>
+                    <div class="pattern-options">
+                        <div class="pattern-option brown-gold active" data-pattern="brown-gold"
+                            data-image="boujee-brown-gold.png" data-name="Brown Gold" title="Brown Gold"></div>
+                        <div class="pattern-option tan-gold" data-pattern="tan-gold" data-image="boujee-tan-gold.png"
+                            data-name="Tan Gold" title="Tan Gold"></div>
+                        <div class="pattern-option black-gold" data-pattern="black-gold"
+                            data-image="boujee-black-gold.png" data-name="Black Gold" title="Black Gold"></div>
+                        <div class="pattern-option black-white" data-pattern="black-white"
+                            data-image="boujee-black-white.png" data-name="Black Silver" title="Black Silver"></div>
+                        <div class="pattern-option red-gold" data-pattern="red-gold" data-image="boujee-red-gold.png"
+                            data-name="Red Gold" title="Red Gold"></div>
+                    </div>
+                </div>
+
+                <!-- Size Selector -->
+                <div class="selector-section">
+                    <label class="selector-label">Select Size</label>
+                    <div class="size-options">
+                        <div class="size-option" data-size="S">S</div>
+                        <div class="size-option active" data-size="M">M</div>
+                        <div class="size-option" data-size="L">L</div>
+                        <div class="size-option" data-size="XL">XL</div>
+                        <div class="size-option" data-size="XXL">XXL</div>
+                    </div>
+                </div>
+
+                <!-- Purchase Section -->
+                <div class="purchase-section">
+                    <div class="quantity-selector">
+                        <button class="quantity-btn" id="decreaseQty">−</button>
+                        <span class="quantity-value" id="quantity">1</span>
+                        <button class="quantity-btn" id="increaseQty">+</button>
+                    </div>
+                    <button class="add-to-cart-btn" id="addToCart">Add to Cart</button>
+                </div>
+
+                <!-- Product Features -->
+                <div class="product-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>Designer-Inspired Patterns</strong> - Luxury diamond chain
+                            design</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>DixxPouch™ Technology</strong> - Extra room where it matters
+                            most</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>Premium Fabric</strong> - Moisture-wicking and breathable
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>Signature Waistband</strong> - Green/red stripe with DIXX
+                            branding</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>Limited Edition</strong> - Exclusive luxury collection</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pattern Selection
+        const patternOptions = document.querySelectorAll('.pattern-option');
+        const mainImage = document.getElementById('mainProductImage');
+        const selectedPatternName = document.getElementById('selectedPatternName');
+        const thumbnails = document.querySelectorAll('.thumbnail');
+
+        patternOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove active class from all
+                patternOptions.forEach(opt => opt.classList.remove('active'));
+                // Add active to clicked
+                option.classList.add('active');
+
+                // Update main image
+                const imageSrc = option.dataset.image;
+                const patternName = option.dataset.name;
+                mainImage.src = imageSrc;
+                mainImage.alt = `The Boujee - ${patternName}`;
+                selectedPatternName.textContent = patternName;
+
+                // Update first thumbnail to match selected pattern
+                thumbnails[0].querySelector('img').src = imageSrc;
+                thumbnails[0].dataset.image = imageSrc;
+            });
+        });
+
+        // Size Selection
+        const sizeOptions = document.querySelectorAll('.size-option');
+        sizeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                sizeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+
+        // Thumbnail Gallery
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', () => {
+                thumbnails.forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+                const imageSrc = thumb.dataset.image;
+                mainImage.src = imageSrc;
+            });
+        });
+
+        // Quantity Selector
+        let quantity = 1;
+        const quantityValue = document.getElementById('quantity');
+        const decreaseBtn = document.getElementById('decreaseQty');
+        const increaseBtn = document.getElementById('increaseQty');
+
+        decreaseBtn.addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                quantityValue.textContent = quantity;
+            }
+        });
+
+        increaseBtn.addEventListener('click', () => {
+            if (quantity < 10) {
+                quantity++;
+                quantityValue.textContent = quantity;
+            }
+        });
+
+        // Add to Cart
+        document.getElementById('addToCart').addEventListener('click', () => {
+            const selectedPattern = document.querySelector('.pattern-option.active').dataset.name;
+            const selectedSize = document.querySelector('.size-option.active').dataset.size;
+
+            alert(`Added to cart!\n\nProduct: The Boujee\nPattern: ${selectedPattern}\nSize: ${selectedSize}\nQuantity: ${quantity}`);
+        });
+    </script>
+</body>
+
+</html>

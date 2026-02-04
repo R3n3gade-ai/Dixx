@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | DIXX Co.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cart-page {
+            min-height: 100vh;
+            background: var(--dark);
+            padding-top: 100px;
+        }
+
+        .cart-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        .cart-header {
+            margin-bottom: 40px;
+        }
+
+        .cart-header h1 {
+            font-family: var(--font-display);
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .cart-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+        }
+
+        .cart-items {
+            background: var(--dark-light);
+            border-radius: 24px;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            gap: 24px;
+            padding: 24px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 120px;
+            height: 120px;
+            background: var(--dark);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .cart-item-meta {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .cart-item-meta span {
+            margin-right: 16px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .qty-btn:hover {
+            border-color: #00F0A0;
+            color: #00F0A0;
+        }
+
+        .qty-input {
+            width: 50px;
+            text-align: center;
+            background: var(--dark);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .cart-item-actions {
+            text-align: right;
+        }
+
+        .cart-item-price {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .remove-btn {
+            background: transparent;
+            border: none;
+            color: #ff4444;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+
+        .remove-btn:hover {
+            color: #ff6666;
+        }
+
+        .cart-summary {
+            background: var(--dark-light);
+            border-radius: 24px;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .cart-summary h2 {
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .summary-row.discount {
+            color: #00F0A0;
+        }
+
+        .summary-row.total {
+            font-size: 24px;
+            font-weight: 700;
+            padding-top: 16px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+            margin-top: 16px;
+        }
+
+        .bundle-badge {
+            background: linear-gradient(135deg, #00F0A0, #00D9FF);
+            color: #000;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00F0A0, #00D9FF);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 24px;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 240, 160, 0.5);
+        }
+
+        .continue-shopping {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .continue-shopping:hover {
+            color: var(--text);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 80px 24px;
+        }
+
+        .empty-cart h2 {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .empty-cart p {
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 968px) {
+            .cart-content {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-summary {
+                position: static;
+            }
+
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .cart-item-actions {
+                grid-column: 1 / -1;
+                text-align: left;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">DIXX<span class="logo-dot">.</span></a>
+            <div class="nav-links">
+                <a href="index.html#shop">Shop</a>
+                <a href="index.html#difference">The Difference</a>
+                <a href="index.html#reviews">Reviews</a>
+                <a href="cart.html" class="cart-link">
+                    🛒 Cart
+                    <span class="cart-badge">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cart-page">
+        <div class="cart-container">
+            <div class="cart-header">
+                <h1>Shopping Cart</h1>
+            </div>
+
+            <div id="cartContent">
+                <!-- Cart items will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 DIXX Co. All rights reserved. Built different.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+    <script>
+        // Render cart page
+        function renderCart() {
+            const container = document.getElementById('cartContent');
+
+            if (cart.items.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart">
+                        <h2>Your cart is empty</h2>
+                        <p>Add some DIXX to your life!</p>
+                        <a href="index.html#shop" class="btn-primary">Shop Now</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const itemCount = cart.getItemCount();
+            const subtotal = cart.getSubtotal();
+            const bundleDiscount = cart.getBundleDiscount();
+            const isBundleEligible = cart.isBundleEligible();
+            const total = cart.getTotal();
+
+            let itemsHTML = cart.items.map((item, index) => `
+                <div class="cart-item">
+                    <div class="cart-item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+                    <div class="cart-item-details">
+                        <h3>${item.name}</h3>
+                        <div class="cart-item-meta">
+                            <span>Size: ${item.size}</span>
+                            <span>Color: ${item.color}</span>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="updateQuantity(${index}, ${item.quantity - 1})">−</button>
+                            <input type="number" class="qty-input" value="${item.quantity}" 
+                                   onchange="updateQuantity(${index}, parseInt(this.value))" min="1">
+                            <button class="qty-btn" onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
+                        </div>
+                    </div>
+                    <div class="cart-item-actions">
+                        <div class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="cart-content">
+                    <div class="cart-items">
+                        ${itemsHTML}
+                    </div>
+                    <div class="cart-summary">
+                        <h2>Order Summary</h2>
+                        ${isBundleEligible ? `
+                            <div class="bundle-badge">
+                                🎉 5-Pair Bundle Deal Applied!
+                            </div>
+                        ` : itemCount >= 3 ? `
+                            <div class="bundle-badge" style="background: rgba(255, 255, 255, 0.1);">
+                                Add ${5 - itemCount} more for Bundle Deal!
+                            </div>
+                        ` : ''}
+                        
+                        <div class="summary-row">
+                            <span>Subtotal (${itemCount} items)</span>
+                            <span>$${subtotal.toFixed(2)}</span>
+                        </div>
+                        ${bundleDiscount > 0 ? `
+                            <div class="summary-row discount">
+                                <span>Bundle Discount</span>
+                                <span>-$${bundleDiscount.toFixed(2)}</span>
+                            </div>
+                        ` : ''}
+                        <div class="summary-row total">
+                            <span>Total</span>
+                            <span>$${total.toFixed(2)}</span>
+                        </div>
+                        
+                        ${isBundleEligible ? `
+                            <p style="color: var(--text-muted); font-size: 14px; margin-top: 16px; text-align: center;">
+                                💰 Save an extra $20 with Zelle payment at checkout!
+                            </p>
+                        ` : ''}
+                        
+                        <button class="checkout-btn" onclick="window.location.href='checkout.html'">
+                            Proceed to Checkout
+                        </button>
+                        <a href="index.html#shop" class="continue-shopping">← Continue Shopping</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateQuantity(index, quantity) {
+            cart.updateQuantity(index, quantity);
+            renderCart();
+        }
+
+        function removeItem(index) {
+            if (confirm('Remove this item from cart?')) {
+                cart.removeItem(index);
+                renderCart();
+            }
+        }
+
+        // Initial render
+        renderCart();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Influencer Program | DIXX Co.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .affiliate-page {
+            min-height: 100vh;
+            background: var(--dark);
+            padding-top: 100px;
+        }
+
+        .affiliate-hero {
+            text-align: center;
+            padding: 80px 24px;
+            background: linear-gradient(135deg, rgba(0, 240, 160, 0.1), rgba(0, 217, 255, 0.1));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .affiliate-hero h1 {
+            font-family: var(--font-display);
+            font-size: 64px;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #00F0A0, #00D9FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .affiliate-hero p {
+            font-size: 24px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .affiliate-stats {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00F0A0, #00D9FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .affiliate-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .benefit-card {
+            background: var(--dark-light);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            border-color: #00F0A0;
+        }
+
+        .benefit-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .benefit-card h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .benefit-card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .signup-section {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--dark-light);
+            padding: 60px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .signup-section h2 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--dark);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: var(--font-primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #00F0A0;
+            box-shadow: 0 0 0 3px rgba(0, 240, 160, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: start;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            font-weight: 400;
+            text-transform: none;
+            letter-spacing: normal;
+            color: var(--text-muted);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #00F0A0, #00D9FF);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-primary);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 240, 160, 0.5);
+        }
+
+        .form-success {
+            display: none;
+            padding: 20px;
+            background: rgba(0, 240, 160, 0.1);
+            border: 2px solid #00F0A0;
+            border-radius: 12px;
+            color: #00F0A0;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 968px) {
+            .affiliate-hero h1 {
+                font-size: 42px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .signup-section {
+                padding: 40px 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">DIXX<span class="logo-dot">.</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#shop">Shop</a>
+                <a href="index.html#difference">The Difference</a>
+                <a href="contact.html">Contact</a>
+                <a href="#" class="btn-nav">Get Yours</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="affiliate-page">
+        <div class="affiliate-hero">
+            <h1>Join the DIXX Squad</h1>
+            <p>Partner with the fastest-growing men's underwear brand. Earn commission, get exclusive perks, and help
+                men everywhere upgrade their confidence.</p>
+
+            <div class="affiliate-stats">
+                <div class="stat-item">
+                    <div class="stat-number">20%</div>
+                    <div class="stat-label">Commission Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">$45</div>
+                    <div class="stat-label">Avg Order Value</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">Day Cookie</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="affiliate-container">
+            <h2 style="text-align: center; font-size: 42px; margin-bottom: 60px;">Why Partner With DIXX?</h2>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>High Commissions</h3>
+                    <p>Earn 20% on every sale. Plus bonuses for top performers reaching $5K+ in monthly sales.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">📦</div>
+                    <h3>Free Products</h3>
+                    <p>Get free DIXX products to review and showcase. New releases sent to active partners first.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">📊</div>
+                    <h3>Real-Time Dashboard</h3>
+                    <p>Track clicks, conversions, and earnings in real-time. Transparent reporting you can trust.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Custom Codes</h3>
+                    <p>Get your own discount code to share. Your audience saves 15%, you earn commission.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <h3>Marketing Support</h3>
+                    <p>Access to professional photos, videos, and copy. We make it easy to promote.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">💳</div>
+                    <h3>Fast Payouts</h3>
+                    <p>Monthly payouts via PayPal or direct deposit. No minimum threshold to cash out.</p>
+                </div>
+            </div>
+
+            <div class="signup-section">
+                <h2>Apply Now</h2>
+
+                <div class="form-success" id="formSuccess">
+                    ✓ Application submitted! We'll review and get back to you within 48 hours.
+                </div>
+
+                <form id="affiliateForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="platform">Primary Platform *</label>
+                        <select id="platform" name="platform" required>
+                            <option value="">Select your main platform</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="youtube">YouTube</option>
+                            <option value="twitter">Twitter/X</option>
+                            <option value="blog">Blog/Website</option>
+                            <option value="podcast">Podcast</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="handle">Social Media Handle *</label>
+                        <input type="text" id="handle" name="handle" placeholder="@yourusername" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="followers">Follower Count *</label>
+                        <select id="followers" name="followers" required>
+                            <option value="">Select range</option>
+                            <option value="1k-5k">1,000 - 5,000</option>
+                            <option value="5k-10k">5,000 - 10,000</option>
+                            <option value="10k-50k">10,000 - 50,000</option>
+                            <option value="50k-100k">50,000 - 100,000</option>
+                            <option value="100k+">100,000+</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="niche">Content Niche *</label>
+                        <select id="niche" name="niche" required>
+                            <option value="">Select your niche</option>
+                            <option value="lifestyle">Lifestyle</option>
+                            <option value="fashion">Fashion</option>
+                            <option value="fitness">Fitness</option>
+                            <option value="comedy">Comedy/Entertainment</option>
+                            <option value="relationships">Relationships</option>
+                            <option value="mens">Men's Interest</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="why">Why do you want to partner with DIXX? *</label>
+                        <textarea id="why" name="why" rows="4" required></textarea>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the DIXX Influencer Program Terms & Conditions and understand that
+                            my application will be reviewed.</label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="marketing" name="marketing">
+                        <label for="marketing">I want to receive marketing emails about new products, promotions, and
+                            influencer opportunities.</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 DIXX Co. All rights reserved. Built different.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Affiliate Form Handler
+        document.getElementById('affiliateForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Get form data
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                platform: document.getElementById('platform').value,
+                handle: document.getElementById('handle').value,
+                followers: document.getElementById('followers').value,
+                niche: document.getElementById('niche').value,
+                why: document.getElementById('why').value,
+                terms: document.getElementById('terms').checked,
+                marketing: document.getElementById('marketing').checked
+            };
+
+            // In a real application, you would send this to your backend
+            console.log('Affiliate application submitted:', formData);
+
+            // Show success message
+            document.getElementById('formSuccess').style.display = 'block';
+
+            // Reset form
+            this.reset();
+
+            // Scroll to success message
+            document.getElementById('formSuccess').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Hide success message after 10 seconds
+            setTimeout(() => {
+                document.getElementById('formSuccess').style.display = 'none';
+            }, 10000);
+        });
+    </script>
+</body>
+
+</html>

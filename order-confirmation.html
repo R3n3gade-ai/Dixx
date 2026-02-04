@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation | DIXX Co.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .confirmation-page {
+            min-height: 100vh;
+            background: var(--dark);
+            padding-top: 100px;
+        }
+
+        .confirmation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            text-align: center;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #00F0A0, #00D9FF);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin: 0 auto 32px;
+        }
+
+        .confirmation-container h1 {
+            font-family: var(--font-display);
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .order-number {
+            font-size: 24px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .order-number span {
+            color: #00F0A0;
+            font-weight: 700;
+        }
+
+        .confirmation-card {
+            background: var(--dark-light);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .confirmation-card h2 {
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+        }
+
+        .info-value {
+            font-weight: 600;
+        }
+
+        .zelle-reminder {
+            background: rgba(0, 240, 160, 0.1);
+            border: 2px solid #00F0A0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .zelle-reminder h3 {
+            color: #00F0A0;
+            margin-bottom: 16px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00F0A0, #00D9FF);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 240, 160, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">DIXX<span class="logo-dot">.</span></a>
+            <div class="nav-links">
+                <a href="index.html#shop">Shop</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="confirmation-page">
+        <div class="confirmation-container">
+            <div class="success-icon">✓</div>
+            <h1>Order Confirmed!</h1>
+            <div class="order-number">
+                Order Number: <span id="orderNumber">Loading...</span>
+            </div>
+
+            <div id="zelleReminder" class="zelle-reminder" style="display: none;">
+                <h3>⚠️ Complete Your Zelle Payment</h3>
+                <p style="margin-bottom: 12px;">To complete your order, please send <strong
+                        id="zelleAmount">$0.00</strong> via Zelle to:</p>
+                <p style="font-weight: 700; margin-bottom: 8px;">Email: payments@dixxco.com</p>
+                <p style="font-weight: 700; margin-bottom: 16px;">Phone: (555) 123-4567</p>
+                <p style="font-size: 14px; color: var(--text-muted);">
+                    Include your order number (<span id="zelleOrderNumber"></span>) in the payment note.
+                </p>
+            </div>
+
+            <div class="confirmation-card">
+                <h2>Order Details</h2>
+                <div id="orderDetails">
+                    <!-- Order details will be loaded here -->
+                </div>
+            </div>
+
+            <div class="confirmation-card">
+                <h2>Shipping Information</h2>
+                <div id="shippingInfo">
+                    <!-- Shipping info will be loaded here -->
+                </div>
+            </div>
+
+            <p style="color: var(--text-muted); margin-bottom: 32px;">
+                A confirmation email has been sent to <span id="customerEmail" style="color: var(--text);"></span>
+            </p>
+
+            <div class="action-buttons">
+                <a href="index.html" class="btn-primary">Continue Shopping</a>
+                <a href="#" onclick="window.print(); return false;" class="btn-secondary">Print Receipt</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load order confirmation data
+        function loadOrderConfirmation() {
+            const orderData = JSON.parse(localStorage.getItem('lastOrder'));
+
+            if (!orderData) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Display order number
+            document.getElementById('orderNumber').textContent = orderData.orderNumber;
+            document.getElementById('customerEmail').textContent = orderData.email;
+
+            // Show Zelle reminder if needed
+            if (orderData.paymentMethod === 'zelle') {
+                const zelleReminder = document.getElementById('zelleReminder');
+                zelleReminder.style.display = 'block';
+                document.getElementById('zelleAmount').textContent = '$' + orderData.total.toFixed(2);
+                document.getElementById('zelleOrderNumber').textContent = orderData.orderNumber;
+            }
+
+            // Display order details
+            let orderDetailsHTML = '';
+            orderData.items.forEach(item => {
+                orderDetailsHTML += `
+                    <div class="info-row">
+                        <span class="info-label">${item.name} (${item.size}, ${item.color}) x${item.quantity}</span>
+                        <span class="info-value">$${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `;
+            });
+
+            orderDetailsHTML += `
+                <div class="info-row">
+                    <span class="info-label">Subtotal</span>
+                    <span class="info-value">$${orderData.subtotal.toFixed(2)}</span>
+                </div>
+            `;
+
+            if (orderData.bundleDiscount > 0) {
+                orderDetailsHTML += `
+                    <div class="info-row">
+                        <span class="info-label" style="color: #00F0A0;">Bundle Discount</span>
+                        <span class="info-value" style="color: #00F0A0;">-$${orderData.bundleDiscount.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
+            if (orderData.zelleDiscount > 0) {
+                orderDetailsHTML += `
+                    <div class="info-row">
+                        <span class="info-label" style="color: #00F0A0;">Zelle Discount</span>
+                        <span class="info-value" style="color: #00F0A0;">-$${orderData.zelleDiscount.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
+            orderDetailsHTML += `
+                <div class="info-row">
+                    <span class="info-label">Shipping</span>
+                    <span class="info-value">FREE</span>
+                </div>
+                <div class="info-row" style="font-size: 20px; padding-top: 16px; border-top: 2px solid rgba(255, 255, 255, 0.1);">
+                    <span class="info-label" style="color: var(--text);">Total</span>
+                    <span class="info-value">$${orderData.total.toFixed(2)}</span>
+                </div>
+            `;
+
+            document.getElementById('orderDetails').innerHTML = orderDetailsHTML;
+
+            // Display shipping info
+            const shippingHTML = `
+                <div class="info-row">
+                    <span class="info-label">Name</span>
+                    <span class="info-value">${orderData.firstName} ${orderData.lastName}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email</span>
+                    <span class="info-value">${orderData.email}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phone</span>
+                    <span class="info-value">${orderData.phone}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Address</span>
+                    <span class="info-value">${orderData.address}, ${orderData.city}, ${orderData.state} ${orderData.zip}, ${orderData.country}</span>
+                </div>
+            `;
+
+            document.getElementById('shippingInfo').innerHTML = shippingHTML;
+        }
+
+        // Load on page load
+        loadOrderConfirmation();
+    </script>
+</body>
+
+</html>
