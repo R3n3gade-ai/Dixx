@@ -779,6 +779,10 @@ section {
 }
 
 @media (max-width: 968px) {
+    .nav-container {
+        padding: 12px 24px;
+    }
+
     .nav-links {
         display: none;
     }
@@ -799,6 +803,11 @@ section {
     .testimonial-grid,
     .features-grid {
         grid-template-columns: 1fr;
+    }
+
+    /* Hide feature cards on mobile */
+    .features-grid .feature-card {
+        display: none;
     }
 
     .footer-grid {
@@ -1327,7 +1336,7 @@ section {
 /* Mobile Hero Fix - Prevent Text Cutoff */
 @media (max-width: 768px) {
     .hero {
-        padding-top: 120px !important;
+        padding-top: 80px !important;
         min-height: auto !important;
     }
 
@@ -1339,6 +1348,7 @@ section {
 backdrop-filter: blur(10px);
 border-top: 1px solid rgba(107, 70, 255, 0.2);
 border-bottom: 1px solid rgba(107, 70, 255, 0.2);
+
 /* Footer Social Icons */
 .footer-social {
     display: flex;
