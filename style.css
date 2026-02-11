@@ -779,6 +779,10 @@ section {
 }
 
 @media (max-width: 968px) {
+    .nav {
+        border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+    }
+
     .nav-container {
         padding: 8px 16px;
     }
@@ -789,6 +793,10 @@ section {
 
     .mobile-menu-btn {
         display: flex;
+    }
+
+    .hero {
+        padding-top: 60px;
     }
 
     .hero-content {
