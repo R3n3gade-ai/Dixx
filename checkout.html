@@ -11,7 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://jstest.authorize.net/v1/Accept.js" charset="utf-8"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <style>
         .checkout-page {
             min-height: 100vh;
@@ -369,7 +369,7 @@
                                         Credit Card
                                     </div>
                                     <div class="payment-option-desc">
-                                        Secure payment via Authorize.Net
+                                        Secure payment via Stripe
                                     </div>
                                 </label>
 
@@ -388,19 +388,13 @@
                             <!-- Credit Card Fields -->
                             <div id="creditCardFields" class="credit-card-fields active">
                                 <div class="form-group">
-                                    <label for="cardNumber">Card Number *</label>
-                                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
-                                </div>
-
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="expiry">Expiry Date *</label>
-                                        <input type="text" id="expiry" placeholder="MM/YY" maxlength="5">
+                                    <label for="card-element">Card Details *</label>
+                                    <div id="card-element"
+                                        style="padding: 14px 18px; background: var(--dark); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px;">
+                                        <!-- Stripe Card Element will be inserted here -->
                                     </div>
-                                    <div class="form-group">
-                                        <label for="cvv">CVV *</label>
-                                        <input type="text" id="cvv" placeholder="123" maxlength="4">
-                                    </div>
+                                    <div id="card-errors" role="alert"
+                                        style="color: #ff4444; font-size: 14px; margin-top: 8px;"></div>
                                 </div>
                             </div>
 

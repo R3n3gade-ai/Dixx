@@ -1,5 +1,49 @@
 // Checkout Page JavaScript
 let selectedPaymentMethod = 'credit-card';
+let stripe;
+let cardElement;
+
+// Initialize Stripe
+function initializeStripe() {
+    if (typeof Stripe === 'undefined') {
+        console.error('Stripe.js not loaded');
+        return;
+    }
+
+    stripe = Stripe(PaymentConfig.stripe.publishableKey);
+    const elements = stripe.elements();
+
+    // Create card element with custom styling
+    cardElement = elements.create('card', {
+        style: {
+            base: {
+                color: '#ffffff',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: 'rgba(255, 255, 255, 0.5)',
+                },
+            },
+            invalid: {
+                color: '#ff4444',
+                iconColor: '#ff4444',
+            },
+        },
+    });
+
+    // Mount card element
+    cardElement.mount('#card-element');
+
+    // Handle real-time validation errors
+    cardElement.on('change', function (event) {
+        const displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+}
 
 // Load order summary
 function loadOrderSummary() {
@@ -142,27 +186,41 @@ document.getElementById('checkoutForm').addEventListener('submit', async functio
     }
 });
 
-// Process credit card payment with Authorize.Net
+// Process credit card payment with Stripe
 async function processCreditCardPayment(orderData) {
-    const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
-    const expiry = document.getElementById('expiry').value;
-    const cvv = document.getElementById('cvv').value;
-
-    // Validate card fields
-    if (!cardNumber || !expiry || !cvv) {
-        throw new Error('Please fill in all credit card fields');
+    if (!stripe || !cardElement) {
+        throw new Error('Stripe not initialized');
     }
 
-    // Parse expiry
-    const [month, year] = expiry.split('/');
-    if (!month || !year) {
-        throw new Error('Invalid expiry date format. Use MM/YY');
+    // Create payment method
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement,
+        billing_details: {
+            name: `${orderData.firstName} ${orderData.lastName}`,
+            email: orderData.email,
+            phone: orderData.phone,
+            address: {
+                line1: orderData.address,
+                city: orderData.city,
+                state: orderData.state,
+                postal_code: orderData.zip,
+                country: orderData.country,
+            },
+        },
+    });
+
+    if (error) {
+        throw new Error(error.message);
     }
 
-    // In a real implementation, you would use Authorize.Net Accept.js here
-    // For now, we'll simulate the payment
+    // In a production environment, you would send the paymentMethod.id to your backend
+    // to create a payment intent and confirm the payment
+    // For now, we'll simulate a successful payment
 
-    // Simulate API call
+    console.log('Payment Method Created:', paymentMethod.id);
+
+    // Simulate backend processing
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Generate order number
@@ -172,6 +230,7 @@ async function processCreditCardPayment(orderData) {
     const completeOrderData = {
         ...orderData,
         orderNumber,
+        paymentMethodId: paymentMethod.id,
         paymentStatus: 'completed',
         orderDate: new Date().toISOString()
     };
@@ -212,26 +271,8 @@ async function processZelleOrder(orderData) {
     window.location.href = 'order-confirmation.html';
 }
 
-// Format card number input
-document.getElementById('cardNumber')?.addEventListener('input', function (e) {
-    let value = e.target.value.replace(/\s/g, '');
-    let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-    e.target.value = formattedValue;
+// Initialize Stripe when page loads
+document.addEventListener('DOMContentLoaded', function () {
+    initializeStripe();
+    loadOrderSummary();
 });
-
-// Format expiry input
-document.getElementById('expiry')?.addEventListener('input', function (e) {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length >= 2) {
-        value = value.slice(0, 2) + '/' + value.slice(2, 4);
-    }
-    e.target.value = value;
-});
-
-// CVV input - numbers only
-document.getElementById('cvv')?.addEventListener('input', function (e) {
-    e.target.value = e.target.value.replace(/\D/g, '');
-});
-
-// Load summary on page load
-loadOrderSummary();

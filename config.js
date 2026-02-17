@@ -1,12 +1,10 @@
 // Payment Configuration
 const PaymentConfig = {
-    // Authorize.Net Configuration
-    authorizeNet: {
-        apiLoginID: '7t37xPX5',
-        clientKey: '8S4jDQprdt5cULV5mR9AA4tHgV4Yw68W48t7Fm2f7naftQRgZXdygSdXLA6t732F',
-        transactionKey: '8Wp4F4T9fqK5gq6M',
-        signatureKey: 'EBA0C8BDB015B802F92683B2BDDD5362EDB5BAAE09B3DA0693990B574602D5541A73EE5D45C6D2A8C70A48CA20A2A30798CCDE256A44ECC22E0DC519CA170CFF',
-        environment: 'PRODUCTION' // Using production credentials
+    // Stripe Configuration
+    stripe: {
+        publishableKey: 'pk_live_51SYwcoCJzOHOpfn0Htumh6LF5MPZNBvYuUXZNHDt2L8EvYjK3RgTjVetdjhQsfQ9Mi0HO9DRLdsRjdFCEw5SI2wd00lblswwoE',
+        secretKey: 'mk_1SYwd1CJzOHOpfn0k9vxHdAq', // Keep secure - should be on backend only
+        environment: 'LIVE' // Using live credentials
     },
 
     // Zelle Configuration
